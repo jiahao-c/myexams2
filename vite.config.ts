@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import path from 'path'
 import react from '@vitejs/plugin-react'
 import vitePluginForArco from '@arco-plugins/vite-react'
 
@@ -9,5 +10,10 @@ export default defineConfig({
     vitePluginForArco({
       theme: '@arco-themes/react-choral-music'
     }),
-  ]
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    }
+  },
 })

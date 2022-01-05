@@ -2,7 +2,7 @@
   "providers": [
     "awscloudformation"
   ],
-  "projectName": "myexams2frontend",
+  "projectName": "myexams2api",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {

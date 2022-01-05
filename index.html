@@ -13,4 +13,13 @@
   <script type="module" src="/src/main.tsx"></script>
 </body>
 
+<script>
+  // Amplify need this to work. See https://github.com/aws/aws-sdk-js/issues/3673
+  const isBrowser = () => typeof window !== 'undefined';
+  const isGlobal = () => typeof global !== 'undefined';
+  if (!isGlobal() && isBrowser()) {
+    var global = window;
+  }
+</script>
+
 </html>
