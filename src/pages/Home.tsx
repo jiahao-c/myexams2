@@ -1,19 +1,18 @@
-import { Button, Layout, Space } from '@arco-design/web-react';
+import { Button, Layout, Space, Checkbox } from '@arco-design/web-react';
 import { Select } from '@arco-design/web-react';
-import { Amplify } from '@aws-amplify/core';
 import { API, GraphQLResult } from '@aws-amplify/api';
 import { DataStore } from '@aws-amplify/datastore';
 import { useEffect, useState } from 'react';
 import { useDebounce, useLocalStorageState } from 'ahooks';
-import awsconfig from '@/aws-exports';
 import { ExamSession } from '@/models';
 import { listExamSelectOptions } from '@/graphql/queries';
 import { ExamCards } from '@/components/exam-cards';
 
 const Sider = Layout.Sider;
 const Content = Layout.Content;
+const useCheckbox = Checkbox.useCheckbox;
 
-Amplify.configure(awsconfig);
+
 
 interface Course {
   course: string;
@@ -30,6 +29,19 @@ export function Home() {
     'myExams-courses-list',
     { defaultValue: [] },
   );
+  const {
+    selected,
+    selectAll,
+    isSelected,
+    unSelectAll,
+    isAllSelected,
+    isPartialSelected,
+    toggle,
+    setValueSelected,
+  } = Checkbox.useCheckbox(
+    exams.map((exam) => exam.id)
+  );
+
   const queryCourses = async () => {
     const query_result = (
       (await API.graphql({
@@ -97,10 +109,11 @@ export function Home() {
       </Sider>
       <Content>
         <h1>Step 3: View, Export, or print schedule</h1>
-        <ExamCards exams={exams} />
+        <ExamCards exams={exams} isSelected={isSelected} setValueSelected={setValueSelected} />
         <Space>
-          <Button type="secondary" size="large">Select All</Button>
-          <Button type="primary" size="large">Export 3 exams to Calendar</Button>
+          {isAllSelected() ? <Button type="secondary" size="large" onClick={unSelectAll}>Unselect All</Button> : <Button type="secondary" size="large" onClick={selectAll}>Select All</Button>}
+          {selected.length > 0 && <Button type="primary" size="large">{`Export ${selected.length} exams to Calendar`}</Button>}
+
         </Space>
       </Content>
     </Layout>

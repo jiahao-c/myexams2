@@ -8,6 +8,10 @@ import {
 } from "react-router-dom";
 import { Home } from './pages/Home';
 import { Admin } from './pages/Admin';
+import { Amplify } from '@aws-amplify/core';
+import awsconfig from '@/aws-exports';
+
+Amplify.configure(awsconfig);
 
 ReactDOM.render(
 

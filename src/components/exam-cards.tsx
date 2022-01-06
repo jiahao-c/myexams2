@@ -24,10 +24,17 @@ import './exam-card.css';
 const { Text } = Typography;
 const { Meta } = Card;
 const { TabPane } = Tabs;
-const useCheckbox = Checkbox.useCheckbox;
 
 
-export const ExamCards = ({ exams }: { exams: ExamSession[] }) => {
+
+export const ExamCards = ({ exams,
+  isSelected,
+  setValueSelected }: {
+    exams: ExamSession[],
+    isSelected: (value: string) => boolean,
+    setValueSelected: (value: string, selected?: boolean) => void
+  }) => {
+
   if (!exams || exams.length === 0) {
     return (
       <Space wrap size='medium'>
@@ -112,7 +119,14 @@ export const ExamCards = ({ exams }: { exams: ExamSession[] }) => {
               }
             />
           }
-          extra={<Checkbox onChange={checked => console.log(checked)} />}>
+          extra={<Checkbox
+            key={exam.id}
+            checked={isSelected(exam.id)}
+            value={exam.id}
+            onChange={(checked) => {
+              setValueSelected(exam.id, checked);
+            }}
+          />}>
           <Tabs
             type="line"
             style={{
