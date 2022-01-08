@@ -1,4 +1,4 @@
-import { Button, Layout, Space, Checkbox } from '@arco-design/web-react';
+import { Button, Layout, Space, Checkbox, Input } from '@arco-design/web-react';
 import { Select } from '@arco-design/web-react';
 import { API, GraphQLResult } from '@aws-amplify/api';
 import { DataStore } from '@aws-amplify/datastore';
@@ -7,11 +7,10 @@ import { useDebounce, useLocalStorageState } from 'ahooks';
 import { ExamSession } from '@/models';
 import { listExamSelectOptions } from '@/graphql/queries';
 import { ExamCards } from '@/components/exam-cards';
+import styles from '@/style/layout.module.less';
 
 const Sider = Layout.Sider;
 const Content = Layout.Content;
-const useCheckbox = Checkbox.useCheckbox;
-
 
 
 interface Course {
@@ -35,8 +34,6 @@ export function Home() {
     isSelected,
     unSelectAll,
     isAllSelected,
-    isPartialSelected,
-    toggle,
     setValueSelected,
   } = Checkbox.useCheckbox(
     exams.map((exam) => exam.id)
@@ -91,23 +88,41 @@ export function Home() {
   };
   return (
     <Layout>
-      <Sider>
-        <h1>Step 1: Select Your Courses</h1>
-        <Select
-          onChange={setInputCourseNumbers}
-          size="large"
-          filterOption={true}
-          mode="multiple"
-          placeholder="Select Courses">
-          {courses.map(course => (
-            <Select.Option key={course.course} value={`${course.course}`}>
-              {`${course.course.replace(/\s/g, '')} ${course.title}`}
-            </Select.Option>
-          ))}
-        </Select>
-        <h1>Step 2: Filter Results</h1>
+      <Sider
+      >
+        <div className={styles['layout-sider']}>
+          <h1>Step 1: Select Your Courses</h1>
+          <Select
+            onChange={setInputCourseNumbers}
+            size="large"
+            filterOption={true}
+            mode="multiple"
+            placeholder="Select Courses">
+            {courses.map(course => (
+              <Select.Option key={course.course} value={`${course.course}`}>
+                {`${course.course.replace(/\s/g, '')} ${course.title}`}
+              </Select.Option>
+            ))}
+          </Select>
+          <h1>Step 2: Filter Results</h1>
+          <h2>By Last Name</h2>
+          <Input
+            style={{ width: '5em' }}
+            allowClear
+            placeholder='AAA'
+          />
+          <h2>By Course Section</h2>
+          <span>
+            COMP 251: <Select>
+              <Select.Option value="001">001</Select.Option>
+              <Select.Option value="002">002</Select.Option>
+            </Select>
+          </span>
+        </div>
       </Sider>
-      <Content>
+      <Content
+        className={styles['layout-content']}
+      >
         <h1>Step 3: View, Export, or print schedule</h1>
         <ExamCards exams={exams} isSelected={isSelected} setValueSelected={setValueSelected} />
         <Space>

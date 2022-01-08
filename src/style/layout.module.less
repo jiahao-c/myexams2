@@ -1,0 +1,49 @@
+@nav-size-height: 60px;
+
+.layout {
+  width: 100%;
+  height: 100%;
+}
+
+.layout-navbar {
+  position: fixed;
+  width: 100%;
+  min-width: 100vw;
+  top: 0;
+  left: 0;
+  height: @nav-size-height;
+  z-index: 100;
+}
+
+.navbar-logo {
+  width: 2em;
+  margin-bottom: -10;
+}
+
+.navbar-title {
+  font-size: x-large;
+  background: linear-gradient(135deg, orange, orange 40%, cyan);
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.layout-sider {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  box-sizing: border-box;
+  padding-top: @nav-size-height;
+}
+
+.layout-content {
+  background-color: var(--color-fill-2);
+  min-width: 100vw;
+  min-height: 100vh;
+  transition: padding-left 0.2s;
+  box-sizing: border-box;
+  padding-top: @nav-size-height;
+  padding-left: 200px;
+  margin-left: auto;
+}

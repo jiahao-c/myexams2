@@ -1,39 +1,28 @@
 import { Menu, Space } from '@arco-design/web-react';
-import { Link, Outlet, Route } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { Layout } from '@arco-design/web-react';
+import styles from '@/style/layout.module.less';
 
 const Header = Layout.Header;
-const Sider = Layout.Sider;
-const Content = Layout.Content;
-
 const MenuItem = Menu.Item;
 export default function HeaderLayout() {
   return (
     <Layout>
-      <Header>
+      <Header
+        className={styles['layout-navbar']}
+      >
         <Menu
-          style={{
-            boxSizing: 'border-box',
-            overflowY: 'auto',
-          }}
           defaultSelectedKeys={['home']}
           mode="horizontal">
           <Space
 
           >
             <img
-              style={{ width: '2em', marginBottom: -10 }}
+              className={styles['navbar-logo']}
               src="https://github.com/Deerhound579/my-exams/blob/master/public/logo192.png?raw=true"
             />
             <span
-              style={{
-                fontSize: '1.5em',
-                // marginLeft: '0.5em',
-                // marginBottom: '1em',
-                background: "linear-gradient(135deg, orange, orange 40%, cyan)",
-                WebkitTextFillColor: "transparent",
-                WebkitBackgroundClip: "text",
-              }}
+              className={styles['navbar-title']}
             >myExams</span>
           </Space>
           <Link to="/">

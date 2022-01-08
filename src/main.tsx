@@ -1,6 +1,4 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import HeaderLayout from './components/HeaderLayout'
 import {
   BrowserRouter, Routes,
