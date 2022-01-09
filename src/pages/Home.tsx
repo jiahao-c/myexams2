@@ -13,6 +13,9 @@ import componentStyles from '@/style/components.module.less';
 const Sider = Layout.Sider;
 const Content = Layout.Content;
 
+const siderWidth = 400;
+const padding = 10;
+const selectWidth = siderWidth - 2 * padding;
 
 interface Course {
   course: string;
@@ -90,10 +93,12 @@ export function Home() {
   return (
     <Layout>
       <Sider
+        width={siderWidth}
       >
         <div className={layoutStyles['layout-sider']}>
           <h1>Step 1: Select Your Courses</h1>
           <Select
+            style={{ 'width': selectWidth }}
             onChange={setInputCourseNumbers}
             size="large"
             filterOption={true}
@@ -108,7 +113,6 @@ export function Home() {
           <h1>Step 2: Filter Results</h1>
           <h2>By Last Name</h2>
           <Input
-            style={{ width: '5em' }}
             allowClear
             placeholder='AAA'
           />
