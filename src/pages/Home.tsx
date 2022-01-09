@@ -7,7 +7,8 @@ import { useDebounce, useLocalStorageState } from 'ahooks';
 import { ExamSession } from '@/models';
 import { listExamSelectOptions } from '@/graphql/queries';
 import { ExamCards } from '@/components/exam-cards';
-import styles from '@/style/layout.module.less';
+import layoutStyles from '@/style/layout.module.less';
+import componentStyles from '@/style/components.module.less';
 
 const Sider = Layout.Sider;
 const Content = Layout.Content;
@@ -90,7 +91,7 @@ export function Home() {
     <Layout>
       <Sider
       >
-        <div className={styles['layout-sider']}>
+        <div className={layoutStyles['layout-sider']}>
           <h1>Step 1: Select Your Courses</h1>
           <Select
             onChange={setInputCourseNumbers}
@@ -121,7 +122,7 @@ export function Home() {
         </div>
       </Sider>
       <Content
-        className={styles['layout-content']}
+        className={layoutStyles['layout-content']}
       >
         <h1>Step 3: View, Export, or print schedule</h1>
         <ExamCards exams={exams} isSelected={isSelected} setValueSelected={setValueSelected} />

@@ -19,7 +19,7 @@ import {
 
 import { ExamSession } from '@/models';
 
-import './exam-card.css';
+import '@/style/components.module.less';
 
 const { Text } = Typography;
 const { Meta } = Card;

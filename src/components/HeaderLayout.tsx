@@ -1,7 +1,8 @@
 import { Menu, Space } from '@arco-design/web-react';
 import { Link, Outlet } from 'react-router-dom';
 import { Layout } from '@arco-design/web-react';
-import styles from '@/style/layout.module.less';
+import layoutStyles from '@/style/layout.module.less';
+import componentStyles from '@/style/components.module.less';
 
 const Header = Layout.Header;
 const MenuItem = Menu.Item;
@@ -9,7 +10,7 @@ export default function HeaderLayout() {
   return (
     <Layout>
       <Header
-        className={styles['layout-navbar']}
+        className={layoutStyles['layout-navbar']}
       >
         <Menu
           defaultSelectedKeys={['home']}
@@ -18,11 +19,11 @@ export default function HeaderLayout() {
 
           >
             <img
-              className={styles['navbar-logo']}
+              className={componentStyles['navbar-logo']}
               src="https://github.com/Deerhound579/my-exams/blob/master/public/logo192.png?raw=true"
             />
             <span
-              className={styles['navbar-title']}
+              className={componentStyles['navbar-title']}
             >myExams</span>
           </Space>
           <Link to="/">
