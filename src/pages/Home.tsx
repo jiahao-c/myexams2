@@ -3,12 +3,13 @@ import { Select } from '@arco-design/web-react';
 import { API, GraphQLResult } from '@aws-amplify/api';
 import { DataStore } from '@aws-amplify/datastore';
 import { useEffect, useState } from 'react';
-import { useDebounce, useLocalStorageState } from 'ahooks';
+import { useBoolean, useDebounce, useLocalStorageState } from 'ahooks';
 import { ExamSession } from '@/models';
 import { listExamSelectOptions } from '@/graphql/queries';
 import { ExamCards } from '@/components/exam-cards';
 import layoutStyles from '@/style/layout.module.less';
 import componentStyles from '@/style/components.module.less';
+import { IconCaretLeft, IconCaretRight } from '@arco-design/web-react/icon';
 
 const Sider = Layout.Sider;
 const Content = Layout.Content;
@@ -24,6 +25,7 @@ interface Course {
 
 export function Home() {
   const [inputCourseNumbers, setInputCourseNumbers] = useState<string[]>([]);
+  const [collapsed, { toggle: toggle_collapsed, set, setTrue, setFalse }] = useBoolean(false);
   const debouncedInputCourseNumbers = useDebounce(inputCourseNumbers, {
     wait: 500,
   });
@@ -93,7 +95,12 @@ export function Home() {
   return (
     <Layout>
       <Sider
+        collapsed={collapsed}
+        collapsible
         width={siderWidth}
+        onCollapse={toggle_collapsed}
+        trigger={collapsed ? <IconCaretRight /> : <IconCaretLeft />}
+        breakpoint='xl'
       >
         <div className={layoutStyles['layout-sider']}>
           <h1>Step 1: Select Your Courses</h1>
@@ -128,12 +135,13 @@ export function Home() {
       <Content
         className={layoutStyles['layout-content']}
       >
-        <h1>Step 3: View, Export, or print schedule</h1>
-        <ExamCards exams={exams} isSelected={isSelected} setValueSelected={setValueSelected} />
-        <Space>
-          {isAllSelected() ? <Button type="secondary" size="large" onClick={unSelectAll}>Unselect All</Button> : <Button type="secondary" size="large" onClick={selectAll}>Select All</Button>}
-          {selected.length > 0 && <Button type="primary" size="large">{`Export ${selected.length} exams to Calendar`}</Button>}
-
+        <Space direction='vertical'>
+          <h1>Step 3: View, Export, or print schedule</h1>
+          <ExamCards exams={exams} isSelected={isSelected} setValueSelected={setValueSelected} />
+          <Space>
+            {(exams.length > 0) && (isAllSelected() ? <Button type="secondary" size="large" onClick={unSelectAll}>Unselect All</Button> : <Button type="secondary" size="large" onClick={selectAll}>Select All</Button>)}
+            {selected.length > 0 && <Button type="primary" size="large">{`Export ${selected.length} exams to Calendar`}</Button>}
+          </Space>
         </Space>
       </Content>
     </Layout>
