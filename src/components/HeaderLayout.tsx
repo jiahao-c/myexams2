@@ -13,10 +13,10 @@ export default function HeaderLayout() {
         className={layoutStyles['layout-navbar']}
       >
         <Menu
+          className={componentStyles['navbar-menu']}
           defaultSelectedKeys={['home']}
           mode="horizontal">
           <Space
-
           >
             <img
               className={componentStyles['navbar-logo']}
@@ -31,9 +31,9 @@ export default function HeaderLayout() {
               Home
             </MenuItem>
           </Link>
-          <MenuItem key="about">
+          {/* <MenuItem key="about">
             About
-          </MenuItem>
+          </MenuItem> */}
           <Link to="/admin">
             <MenuItem key="admin">
               Admin

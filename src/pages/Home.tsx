@@ -25,7 +25,7 @@ export function Home() {
   const [inputCourseNumbers, setInputCourseNumbers] = useState<string[]>([]);
   const [collapsed, { toggle: toggle_collapsed, set, setTrue, setFalse }] = useBoolean(false);
   const debouncedInputCourseNumbers = useDebounce(inputCourseNumbers, {
-    wait: 500,
+    wait: 300,
   });
   const [exams, setExams] = useState<ExamSession[]>([]);
   const [courses, setCourses] = useLocalStorageState<Course[]>(
@@ -90,6 +90,21 @@ export function Home() {
     );
     setExams(sessions_per_course.flat());
   };
+
+  // //if a course has >1 sessions, show the filter 
+  // const hasMultipleSessions = () => {
+
+  // }
+
+  // const handleFilter = (lastName: string) => {
+  //   lastName = lastName.toUpperCase()
+  //   console.log({ lastName })
+  //   if (lastName.length > 0) {
+  //     console.log("setting exams")
+  //     setExams(exams.filter(exam => (lastName >= exam.from! && lastName <= exam.to!)))
+  //   }
+  // }
+
   return (
     <Layout
     >
@@ -117,12 +132,13 @@ export function Home() {
             ))}
           </Select>
           <Divider />
-          <Typography.Title heading={6}>Filter Results</Typography.Title>
+          {/* <Typography.Title heading={6}>Filter Results</Typography.Title>
           <h3>By Last Name</h3>
           <Input
-            style={{ width: '4em' }}
+            style={{ width: '5em' }}
             allowClear
             placeholder='AAA'
+            onChange={handleFilter}
           />
           <h3>By Course Section</h3>
           <span>
@@ -132,14 +148,14 @@ export function Home() {
               <Select.Option value="001">001</Select.Option>
               <Select.Option value="002">002</Select.Option>
             </Select>
-          </span>
+          </span> */}
         </div>)}
       </Sider>
       <Content
         className={layoutStyles['layout-content']}
       >
         <Space direction='vertical'>
-          <h2>Step 3: View, Export, or print schedule</h2>
+          <Typography.Title heading={5}>Your schedule</Typography.Title>
           <ExamCards exams={exams} isSelected={isSelected} setValueSelected={setValueSelected} />
           <Space>
             {(exams.length > 0) && (isAllSelected() ? <Button type="secondary" size="large" onClick={unSelectAll}>Unselect All</Button> : <Button type="secondary" size="large" onClick={selectAll}>Select All</Button>)}
