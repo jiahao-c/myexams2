@@ -1,4 +1,4 @@
-import { Button, Layout, Space, Checkbox, Input } from '@arco-design/web-react';
+import { Button, Layout, Space, Checkbox, Input, Typography, Divider } from '@arco-design/web-react';
 import { Select } from '@arco-design/web-react';
 import { API, GraphQLResult } from '@aws-amplify/api';
 import { DataStore } from '@aws-amplify/datastore';
@@ -14,9 +14,7 @@ import { IconCaretLeft, IconCaretRight } from '@arco-design/web-react/icon';
 const Sider = Layout.Sider;
 const Content = Layout.Content;
 
-const siderWidth = 400;
-const padding = 10;
-const selectWidth = siderWidth - 2 * padding;
+const siderWidth = 300;
 
 interface Course {
   course: string;
@@ -93,7 +91,8 @@ export function Home() {
     setExams(sessions_per_course.flat());
   };
   return (
-    <Layout>
+    <Layout
+    >
       <Sider
         collapsed={collapsed}
         collapsible
@@ -102,10 +101,10 @@ export function Home() {
         trigger={collapsed ? <IconCaretRight /> : <IconCaretLeft />}
         breakpoint='xl'
       >
-        <div className={layoutStyles['layout-sider']}>
-          <h1>Step 1: Select Your Courses</h1>
+        {(!collapsed) && (<div className={layoutStyles['sider-content']}>
+          <Typography.Title heading={6}>Select Your Courses </Typography.Title>
           <Select
-            style={{ 'width': selectWidth }}
+            style={{ width: '20em' }}
             onChange={setInputCourseNumbers}
             size="large"
             filterOption={true}
@@ -117,26 +116,30 @@ export function Home() {
               </Select.Option>
             ))}
           </Select>
-          <h1>Step 2: Filter Results</h1>
-          <h2>By Last Name</h2>
+          <Divider />
+          <Typography.Title heading={6}>Filter Results</Typography.Title>
+          <h3>By Last Name</h3>
           <Input
+            style={{ width: '4em' }}
             allowClear
             placeholder='AAA'
           />
-          <h2>By Course Section</h2>
+          <h3>By Course Section</h3>
           <span>
-            COMP 251: <Select>
+            COMP 251: <Select
+              style={{ width: '4em' }}
+            >
               <Select.Option value="001">001</Select.Option>
               <Select.Option value="002">002</Select.Option>
             </Select>
           </span>
-        </div>
+        </div>)}
       </Sider>
       <Content
         className={layoutStyles['layout-content']}
       >
         <Space direction='vertical'>
-          <h1>Step 3: View, Export, or print schedule</h1>
+          <h2>Step 3: View, Export, or print schedule</h2>
           <ExamCards exams={exams} isSelected={isSelected} setValueSelected={setValueSelected} />
           <Space>
             {(exams.length > 0) && (isAllSelected() ? <Button type="secondary" size="large" onClick={unSelectAll}>Unselect All</Button> : <Button type="secondary" size="large" onClick={selectAll}>Select All</Button>)}
