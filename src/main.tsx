@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom'
-import HeaderLayout from './components/HeaderLayout'
+import Navbar from './components/NavBar'
 import {
   BrowserRouter, Routes,
   Route
@@ -8,6 +8,7 @@ import { Home } from './pages/Home';
 import { Admin } from './pages/Admin';
 import { Amplify } from '@aws-amplify/core';
 import awsconfig from '@/aws-exports';
+import 'virtual:windi.css'
 
 Amplify.configure(awsconfig);
 
@@ -15,7 +16,7 @@ ReactDOM.render(
 
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<HeaderLayout />}>
+      <Route path="/" element={<Navbar />}>
         <Route index element={<Home />} />
         <Route path="admin" element={<Admin />} />
         <Route

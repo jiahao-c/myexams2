@@ -1,4 +1,4 @@
-import { Button, Layout, Space, Checkbox, Input, Typography, Divider } from '@arco-design/web-react';
+import { Button, Layout, Space, Checkbox, Typography, Divider } from '@arco-design/web-react';
 import { Select } from '@arco-design/web-react';
 import { API, GraphQLResult } from '@aws-amplify/api';
 import { DataStore } from '@aws-amplify/datastore';
@@ -8,13 +8,9 @@ import { ExamSession } from '@/models';
 import { listExamSelectOptions } from '@/graphql/queries';
 import { ExamCards } from '@/components/exam-cards';
 import layoutStyles from '@/style/layout.module.less';
-import componentStyles from '@/style/components.module.less';
-import { IconCaretLeft, IconCaretRight } from '@arco-design/web-react/icon';
 
-const Sider = Layout.Sider;
 const Content = Layout.Content;
-
-const siderWidth = 300;
+const Footer = Layout.Footer;
 
 interface Course {
   course: string;
@@ -91,36 +87,19 @@ export function Home() {
     setExams(sessions_per_course.flat());
   };
 
-  // //if a course has >1 sessions, show the filter 
-  // const hasMultipleSessions = () => {
-
-  // }
-
-  // const handleFilter = (lastName: string) => {
-  //   lastName = lastName.toUpperCase()
-  //   console.log({ lastName })
-  //   if (lastName.length > 0) {
-  //     console.log("setting exams")
-  //     setExams(exams.filter(exam => (lastName >= exam.from! && lastName <= exam.to!)))
-  //   }
-  // }
-
   return (
     <Layout
+      className={layoutStyles['layout-content']}
     >
-      <Sider
-        collapsed={collapsed}
-        collapsible
-        width={siderWidth}
-        onCollapse={toggle_collapsed}
-        trigger={collapsed ? <IconCaretRight /> : <IconCaretLeft />}
-        breakpoint='xl'
+      <Content
+        className={layoutStyles['content']}
       >
-        {(!collapsed) && (<div className={layoutStyles['sider-content']}>
+        <Space direction='vertical'>
           <Typography.Title heading={6}>Select Your Courses </Typography.Title>
           <Select
-            style={{ width: '20em' }}
+            style={{ width: '18em' }}
             onChange={setInputCourseNumbers}
+            value={inputCourseNumbers}
             size="large"
             filterOption={true}
             mode="multiple"
@@ -132,37 +111,15 @@ export function Home() {
             ))}
           </Select>
           <Divider />
-          {/* <Typography.Title heading={6}>Filter Results</Typography.Title>
-          <h3>By Last Name</h3>
-          <Input
-            style={{ width: '5em' }}
-            allowClear
-            placeholder='AAA'
-            onChange={handleFilter}
-          />
-          <h3>By Course Section</h3>
-          <span>
-            COMP 251: <Select
-              style={{ width: '4em' }}
-            >
-              <Select.Option value="001">001</Select.Option>
-              <Select.Option value="002">002</Select.Option>
-            </Select>
-          </span> */}
-        </div>)}
-      </Sider>
-      <Content
-        className={layoutStyles['layout-content']}
-      >
-        <Space direction='vertical'>
           <Typography.Title heading={5}>Your schedule</Typography.Title>
           <ExamCards exams={exams} isSelected={isSelected} setValueSelected={setValueSelected} />
           <Space>
-            {(exams.length > 0) && (isAllSelected() ? <Button type="secondary" size="large" onClick={unSelectAll}>Unselect All</Button> : <Button type="secondary" size="large" onClick={selectAll}>Select All</Button>)}
+            {(exams.length > 0) && (isAllSelected() ? <Button type="outline" size="large" onClick={unSelectAll}>Unselect All</Button> : <Button type="primary" size="large" onClick={selectAll}>Select All</Button>)}
             {selected.length > 0 && <Button type="primary" size="large">{`Export ${selected.length} exams to Calendar`}</Button>}
           </Space>
         </Space>
       </Content>
+      <Footer>Footer</Footer>
     </Layout>
   );
 }

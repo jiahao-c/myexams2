@@ -6,11 +6,13 @@ import componentStyles from '@/style/components.module.less';
 
 const Header = Layout.Header;
 const MenuItem = Menu.Item;
-export default function HeaderLayout() {
+export default function Navbar() {
   return (
-    <Layout>
+    <Layout
+      className={layoutStyles['layout-navbar']}
+    >
       <Header
-        className={layoutStyles['layout-navbar']}
+        className={layoutStyles['navbar-header']}
       >
         <Menu
           className={componentStyles['navbar-menu']}

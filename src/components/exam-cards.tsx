@@ -19,7 +19,7 @@ import {
 
 import { ExamSession } from '@/models';
 
-import '@/style/components.module.less';
+import componentStyles from '@/style/components.module.less';
 
 const { Text } = Typography;
 const { Meta } = Card;
@@ -47,6 +47,7 @@ export const ExamCards = ({ exams,
               description={<Skeleton text={{ rows: 1, width: 120 }} />}
             />
           }
+
         >
           <Tabs
             type="line"
@@ -92,7 +93,7 @@ export const ExamCards = ({ exams,
     <Space wrap size='medium'>
       {exams.map(exam => (
         <Card
-          className='card-custom-style'
+          className={componentStyles['card']}
           key={exam.id} // ${exam.from} - ${exam.to})
           hoverable={true}
           headerStyle={

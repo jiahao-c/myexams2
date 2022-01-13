@@ -1,44 +1,23 @@
-@nav-size-height: 60px;
-@sider-width: 300px;
-@padding-sider: 10px;
-@padding-content: 20px;
+@nav-size-height: 10vh;
 
-.layout {
-  width: 100%;
-  height: 100%;
-}
+@padding-content: 20px;
 
 .layout-navbar {
   position: fixed;
-  width: 100%;
-  min-width: 100vw;
-  top: 0;
-  left: 0;
-  height: @nav-size-height;
+  width: 100vw;
   z-index: 100;
-  padding-bottom: 40px;
 }
 
-.sider-content {
-  width: @sider-width;
-  padding: @padding-sider;
-  top: 0;
-  left: 0;
-  z-index: 90;
-  box-sizing: border-box;
-  padding-top: @nav-size-height;
-  overflow-y: scroll;
+.navbar-header {
+}
+
+.navbar-menu {
 }
 
 .layout-content {
-  width: calc(~"100vw - " @sider-width);
   background-color: var(--color-fill-2);
   min-height: 100vh;
-  transition: padding-left 0.2s;
-  box-sizing: border-box;
-  padding-top: @nav-size-height;
-  margin-left: auto;
-  padding-left: @padding-content;
-  padding-right: @padding-content;
-  padding-bottom: @padding-content;
+}
+
+.content {
 }
