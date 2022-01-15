@@ -1,14 +1,11 @@
-import { Button, Layout, Space, Checkbox, Typography, Divider } from '@arco-design/web-react';
-import { Select } from '@arco-design/web-react';
+import { ExamCards } from '@/components/exam-cards';
+import { listExamSelectOptions } from '@/graphql/queries';
+import { ExamSession } from '@/models';
+import { Button, Checkbox, Divider, Layout, Select, Space, Typography } from '@arco-design/web-react';
 import { API, GraphQLResult } from '@aws-amplify/api';
 import { DataStore } from '@aws-amplify/datastore';
-import { useEffect, useState } from 'react';
 import { useBoolean, useDebounce, useLocalStorageState } from 'ahooks';
-import { ExamSession } from '@/models';
-import { listExamSelectOptions } from '@/graphql/queries';
-import { ExamCards } from '@/components/exam-cards';
-import layoutStyles from '@/style/layout.module.less';
-
+import { useEffect, useState } from 'react';
 const Content = Layout.Content;
 const Footer = Layout.Footer;
 
@@ -88,16 +85,14 @@ export function Home() {
   };
 
   return (
-    <Layout
-      className={layoutStyles['layout-content']}
-    >
+    <>
       <Content
-        className={layoutStyles['content']}
+        className='pl-4 blue-gray-100'
       >
         <Space direction='vertical'>
           <Typography.Title heading={6}>Select Your Courses </Typography.Title>
           <Select
-            style={{ width: '18em' }}
+            className='w-xs'
             onChange={setInputCourseNumbers}
             value={inputCourseNumbers}
             size="large"
@@ -120,6 +115,6 @@ export function Home() {
         </Space>
       </Content>
       <Footer>Footer</Footer>
-    </Layout>
+    </>
   );
 }

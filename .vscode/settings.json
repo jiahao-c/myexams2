@@ -8,8 +8,13 @@
     "amplify/backend/amplify-meta.json": true,
     "amplify/backend/awscloudformation": true
   },
+  "prettier.semi": true,
+  "prettier.trailingComma": "all",
+  "prettier.bracketSpacing": true,
+  "prettier.jsxBracketSameLine": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
   },
   "files.associations": {
     ".code-workspace": "jsonc",
@@ -56,10 +61,12 @@
     "javascriptreact",
     "typescript",
     "typescriptreact",
-    "vue"
   ],
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
   "javascript.validate.enable": false,
-  "typescript.validate.enable": true
+  "typescript.validate.enable": true,
+  "editor.quickSuggestions": {
+    "strings": true
+  }
 }

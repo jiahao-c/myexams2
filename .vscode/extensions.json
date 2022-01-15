@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "voorjaar.windicss-intellisense",
+    "dbaeumer.vscode-eslint",
+    "mikestead.dotenv",
+    "esbenp.prettier-vscode"
+  ]
+}
