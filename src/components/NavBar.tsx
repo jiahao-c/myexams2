@@ -43,9 +43,10 @@ export default function Navbar() {
               </MenuItem>
             </Link>
           </Space>
-
         </Menu>
-        <Divider />
+        <Divider
+          className="-mt-0.5"
+        />
       </Header>
       <Outlet />
     </Layout >

@@ -31,6 +31,7 @@ export function Home() {
     isSelected,
     unSelectAll,
     isAllSelected,
+    isPartialSelected,
     setValueSelected,
   } = Checkbox.useCheckbox(
     exams.map((exam) => exam.id)
@@ -85,36 +86,38 @@ export function Home() {
   };
 
   return (
-    <>
-      <Content
-        className='pl-4 blue-gray-100'
+    <Content
+      className='pl-4 blue-gray-100'
+    >
+      <Space direction='vertical'
+        size='mini'
       >
-        <Space direction='vertical'>
-          <Typography.Title heading={6}>Select Your Courses </Typography.Title>
-          <Select
-            className='w-xs'
-            onChange={setInputCourseNumbers}
-            value={inputCourseNumbers}
-            size="large"
-            filterOption={true}
-            mode="multiple"
-            placeholder="Select Courses">
-            {courses.map(course => (
-              <Select.Option key={course.course} value={`${course.course}`}>
-                {`${course.course.replace(/\s/g, '')} ${course.title}`}
-              </Select.Option>
-            ))}
-          </Select>
-          <Divider />
-          <Typography.Title heading={5}>Your schedule</Typography.Title>
-          <ExamCards exams={exams} isSelected={isSelected} setValueSelected={setValueSelected} />
-          <Space>
-            {(exams.length > 0) && (isAllSelected() ? <Button type="outline" size="large" onClick={unSelectAll}>Unselect All</Button> : <Button type="primary" size="large" onClick={selectAll}>Select All</Button>)}
-            {selected.length > 0 && <Button type="primary" size="large">{`Export ${selected.length} exams to Calendar`}</Button>}
-          </Space>
+        <Typography.Title
+          className='-mt-4'
+          heading={5}>Select Your Courses </Typography.Title>
+        <Select
+          className='w-xs'
+          onChange={setInputCourseNumbers}
+          value={inputCourseNumbers}
+          size="large"
+          filterOption={true}
+          mode="multiple"
+          placeholder="Select Courses">
+          {courses.map(course => (
+            <Select.Option key={course.course} value={`${course.course}`}>
+              {`${course.course.replace(/\s/g, '')} ${course.title}`}
+            </Select.Option>
+          ))}
+        </Select>
+        <Divider />
+        <Typography.Title heading={5}>Your schedule</Typography.Title>
+        <ExamCards exams={exams} isSelected={isSelected} setValueSelected={setValueSelected} />
+        <Space>
+          {((exams.length > 0) && !isAllSelected()) && <Button type="primary" size="large" onClick={selectAll}>Select All</Button>}
+          {((exams.length > 0) && (isPartialSelected() || isAllSelected())) && <Button type="outline" size="large" onClick={unSelectAll}>Unselect All</Button>}
+          {selected.length > 0 && <Button type="primary" size="large">{`Export ${selected.length} exams to Calendar`}</Button>}
         </Space>
-      </Content>
-      <Footer>Footer</Footer>
-    </>
+      </Space>
+    </Content>
   );
 }

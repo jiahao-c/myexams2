@@ -1,25 +1,14 @@
+import { ExamSession } from '@/models';
 import {
   Card,
-  Checkbox,
-  Typography,
-  Tabs,
-  Space,
-  Skeleton,
+  Checkbox, Skeleton, Space, Tabs, Typography
 } from '@arco-design/web-react';
 import {
   IconArrowRight,
-  IconCalendarClock,
-  IconInfoCircle,
-  IconHome,
-  IconClockCircle,
-  IconSchedule,
-  IconLocation,
-  IconUserGroup,
+  IconCalendarClock, IconClockCircle, IconHome, IconInfoCircle, IconLocation, IconSchedule, IconUserGroup
 } from '@arco-design/web-react/icon';
 
-import { ExamSession } from '@/models';
 
-import componentStyles from '@/style/components.module.less';
 
 const { Text } = Typography;
 const { Meta } = Card;
@@ -82,6 +71,7 @@ export const ExamCards = ({ exams,
               }
               key="type">
               <Space>
+                <Skeleton text={{ rows: 2, width: 200 }} />
               </Space>
             </TabPane>
           </Tabs>
@@ -93,7 +83,7 @@ export const ExamCards = ({ exams,
     <Space wrap size='medium'>
       {exams.map(exam => (
         <Card
-          className={componentStyles['card']}
+          className='w-80 pt-2 h-auto hover:scale-150 h-45'
           key={exam.id} // ${exam.from} - ${exam.to})
           hoverable={true}
           headerStyle={
