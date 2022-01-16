@@ -1,7 +1,7 @@
 import { ExamSession } from '@/models';
 import {
   Card,
-  Checkbox, Skeleton, Space, Tabs, Typography
+  Checkbox, Empty, Space, Tabs, Typography
 } from '@arco-design/web-react';
 import {
   IconArrowRight,
@@ -27,55 +27,9 @@ export const ExamCards = ({ exams,
   if (!exams || exams.length === 0) {
     return (
       <Space wrap size='medium'>
-        {[1, 2, 3, 4].map(i => (<Card
-          key={i}
-          bordered={true}
-          title={
-            <Meta
-              title={<Skeleton style={{ marginTop: 0 }} text={{ rows: 1, width: 180 }} />}
-              description={<Skeleton text={{ rows: 1, width: 120 }} />}
-            />
-          }
-
-        >
-          <Tabs
-            type="line"
-            style={{
-              marginTop: -20,
-              marginBottom: -20,
-            }}>
-            <TabPane
-              title={
-                <Skeleton text={{ rows: 1, width: 42 }} />
-              }
-              style={{
-                marginTop: 5,
-                marginBottom: 5,
-              }}
-              key="time">
-              <Space>
-                <Skeleton text={{ rows: 2, width: 200 }} />
-              </Space>
-            </TabPane>
-            <TabPane
-              title={
-                <Skeleton text={{ rows: 1, width: 42 }} />
-              }
-              key="Location">
-              <Space>
-              </Space>
-            </TabPane>
-            <TabPane
-              title={
-                <Skeleton text={{ rows: 1, width: 42 }} />
-              }
-              key="type">
-              <Space>
-                <Skeleton text={{ rows: 2, width: 200 }} />
-              </Space>
-            </TabPane>
-          </Tabs>
-        </Card >))}
+        <Empty
+        description='Nothing here. Please select your courses.'
+        />
       </Space>)
   };
 

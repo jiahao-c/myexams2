@@ -4,10 +4,9 @@ import { ExamSession } from '@/models';
 import { Button, Checkbox, Divider, Layout, Select, Space, Typography } from '@arco-design/web-react';
 import { API, GraphQLResult } from '@aws-amplify/api';
 import { DataStore } from '@aws-amplify/datastore';
-import { useBoolean, useDebounce, useLocalStorageState } from 'ahooks';
+import { useDebounce, useLocalStorageState } from 'ahooks';
 import { useEffect, useState } from 'react';
 const Content = Layout.Content;
-const Footer = Layout.Footer;
 
 interface Course {
   course: string;
@@ -16,12 +15,11 @@ interface Course {
 
 export function Home() {
   const [inputCourseNumbers, setInputCourseNumbers] = useState<string[]>([]);
-  const [collapsed, { toggle: toggle_collapsed, set, setTrue, setFalse }] = useBoolean(false);
   const debouncedInputCourseNumbers = useDebounce(inputCourseNumbers, {
     wait: 300,
   });
   const [exams, setExams] = useState<ExamSession[]>([]);
-  const [courses, setCourses] = useLocalStorageState<Course[]>(
+  const [coursesOptions, setCoursesOptions] = useLocalStorageState<Course[]>(
     'myExams-courses-list',
     { defaultValue: [] },
   );
@@ -48,20 +46,25 @@ export function Home() {
     const result_no_duplicate = [
       ...new Map(query_result.map(v => [v.course, v])).values(),
     ];
-    setCourses(result_no_duplicate);
+    setCoursesOptions(result_no_duplicate);
     console.log('fetched courses', { result_no_duplicate });
   };
 
   useEffect(() => {
     // fetch the courses list on component mount
-    if (courses.length === 0) {
+    if (coursesOptions.length === 0) {
       queryCourses();
     }
   }, []);
 
   useEffect(() => {
     // fetch the exam sessions
-    queryExamSessions();
+    if(debouncedInputCourseNumbers.length>0){
+      queryExamSessions();
+    }
+    else{
+      setExams([])
+    }
   }, [debouncedInputCourseNumbers]);
 
   // course_numbers needs to be "XXXX 000"
@@ -87,13 +90,21 @@ export function Home() {
 
   return (
     <Content
-      className='pl-4 blue-gray-100'
+      className='mb-8  pl-4 blue-gray-100'
     >
-      <Space direction='vertical'
-        size='mini'
+      <section
+        className='flex flex-col'
+        >
+        <section 
+        className='place-self-center'
+        >
+      <Space 
+      direction='vertical'
+      size='mini'
       >
+
         <Typography.Title
-          className='-mt-4'
+          className='-mt-100'
           heading={5}>Select Your Courses </Typography.Title>
         <Select
           className='w-xs'
@@ -103,21 +114,25 @@ export function Home() {
           filterOption={true}
           mode="multiple"
           placeholder="Select Courses">
-          {courses.map(course => (
+          {coursesOptions.map(course => (
             <Select.Option key={course.course} value={`${course.course}`}>
               {`${course.course.replace(/\s/g, '')} ${course.title}`}
             </Select.Option>
           ))}
         </Select>
-        <Divider />
+        <Divider 
+        // className='w-screen'
+        />
         <Typography.Title heading={5}>Your schedule</Typography.Title>
         <ExamCards exams={exams} isSelected={isSelected} setValueSelected={setValueSelected} />
-        <Space>
+        <Space wrap>
           {((exams.length > 0) && !isAllSelected()) && <Button type="primary" size="large" onClick={selectAll}>Select All</Button>}
-          {((exams.length > 0) && (isPartialSelected() || isAllSelected())) && <Button type="outline" size="large" onClick={unSelectAll}>Unselect All</Button>}
-          {selected.length > 0 && <Button type="primary" size="large">{`Export ${selected.length} exams to Calendar`}</Button>}
+          {((exams.length > 0) && (isPartialSelected() || isAllSelected())) && <Button type="secondary" size="large" onClick={unSelectAll}>Unselect All</Button>}
+          {selected.length > 0 && <Button type="outline" size="large">{`Export ${selected.length} exams to Calendar`}</Button>}
         </Space>
       </Space>
+      </section>
+        </section>
     </Content>
   );
 }
