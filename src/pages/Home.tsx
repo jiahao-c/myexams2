@@ -93,11 +93,8 @@ export function Home() {
       className='mb-8  pl-4 blue-gray-100'
     >
       <section
-        className='flex flex-col'
-        >
-        <section 
-        className='place-self-center'
-        >
+        className='flex place-content-center'
+      >
       <Space 
       direction='vertical'
       size='mini'
@@ -131,7 +128,6 @@ export function Home() {
           {selected.length > 0 && <Button type="outline" size="large">{`Export ${selected.length} exams to Calendar`}</Button>}
         </Space>
       </Space>
-      </section>
         </section>
     </Content>
   );

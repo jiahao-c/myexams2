@@ -1,4 +1,5 @@
-import { Divider, Layout, Menu, Space } from '@arco-design/web-react';
+import { Button, Divider, Layout, Menu, Space } from '@arco-design/web-react';
+import { IconGithub } from '@arco-design/web-react/icon';
 import { Link, Outlet } from 'react-router-dom';
 
 const Header = Layout.Header;
@@ -34,20 +35,21 @@ export default function Navbar() {
                 Home
               </MenuItem>
             </Link>
-            {/* <MenuItem key="about">
-            About
-          </MenuItem> */}
             <Link to="/admin">
               <MenuItem key="admin">
                 Admin
               </MenuItem>
             </Link>
+            <Button 
+            className=''
+            type='primary' icon={<IconGithub />}>Star</Button>
           </Space>
         </Menu>
         <Divider
           className="-mt-0.5"
         />
       </Header>
+   
       <Outlet />
     </Layout >
   );
