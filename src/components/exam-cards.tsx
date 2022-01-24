@@ -26,11 +26,12 @@ export const ExamCards = ({ exams,
 
   if (!exams || exams.length === 0) {
     return (
-      <Space wrap size='medium'>
+      <>
         <Empty
         description='Nothing here. Please select your courses.'
         />
-      </Space>)
+      </>
+    )
   };
 
   return (
