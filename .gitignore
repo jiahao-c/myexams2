@@ -1,6 +1,11 @@
 .DS_Store
 *.local
 .env
+amplify/
+node_modules/
+dist/
+aws-exports.js
+*.zip
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend

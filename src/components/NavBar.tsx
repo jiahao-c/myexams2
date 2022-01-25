@@ -35,16 +35,19 @@ export function Navbar() {
                 Home
               </MenuItem>
             </Link>
-            {/* <Link to="/admin">
-              <MenuItem key="admin">
-                Admin
-              </MenuItem>
-            </Link> */}
-
+            <div
+            className='-mb-1'
+            >
+            <a
+            href='https://github.com/jiahao-c/myexams2'
+            target='_blank'
+            rel="noreferrer noopener"
+            >
             <Button 
             className=''
             type='primary' icon={<IconGithub />}>Star</Button>
-       
+             </a>
+             </div>
           </Space>
         </Menu>
       </Header>
