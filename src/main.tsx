@@ -1,14 +1,13 @@
-import ReactDOM from 'react-dom'
-import Navbar from './components/NavBar'
-import {
-  BrowserRouter, Routes,
-  Route
-} from "react-router-dom";
-import { Home } from './pages/Home';
-import { Admin } from './pages/Admin';
-import { Amplify } from '@aws-amplify/core';
 import awsconfig from '@/aws-exports';
-import 'virtual:windi.css'
+import { Amplify } from '@aws-amplify/core';
+import ReactDOM from 'react-dom';
+import {
+  BrowserRouter, Route, Routes
+} from "react-router-dom";
+import 'virtual:windi.css';
+import { Navbar } from './components/NavBar';
+import { Admin } from './pages/Admin';
+import { Home } from './pages/Home';
 
 Amplify.configure(awsconfig);
 

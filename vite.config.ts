@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite'
-import path from 'path'
-import react from '@vitejs/plugin-react'
 import vitePluginForArco from '@arco-plugins/vite-react'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+import ignore from "rollup-plugin-ignore"
+import { defineConfig } from 'vite'
 import WindiCSS from 'vite-plugin-windicss'
 
 // https://vitejs.dev/config/
@@ -12,6 +13,7 @@ export default defineConfig({
       theme: '@arco-themes/react-choral-music'
     }),
     WindiCSS(),
+    ignore(['fs'])
   ],
   resolve: {
     alias: {

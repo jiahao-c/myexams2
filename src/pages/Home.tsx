@@ -1,4 +1,5 @@
 import { ExamCards } from "@/components/exam-cards";
+import { ToCalendarButton } from "@/components/ToCalendar";
 import { listExamSelectOptions } from "@/graphql/queries";
 import { ExamSession } from "@/models";
 import {
@@ -96,7 +97,7 @@ export function Home() {
   };
 
   return (
-    <Content className="mb-8 pr-8 pl-8 blue-gray-100">
+    <Content className="mt-8 mb-8 pr-8 pl-8 blue-gray-100">
       <section className="flex place-content-center">
         <Space
           direction="vertical"
@@ -108,26 +109,23 @@ export function Home() {
             </div>
             <Tag color="arcoblue">Winter - 2022</Tag>
           </Space>
-          <Timeline direction="horizontal" mode="bottom">
-            <TimelineItem lineType="dashed">
-              <Space direction="vertical" size="mini">
-                <Typography.Text>Tentative Schedule</Typography.Text>
-                <Typography.Text type="secondary">
-                  Late Janurary{" "}
-                </Typography.Text>
-              </Space>
+          <Timeline
+          labelPosition='relative'
+          direction="horizontal" mode="bottom">
+            <TimelineItem 
+            label='Late Janurary'
+            lineType="dashed">
+            <Tag color="green">Tentative</Tag>
             </TimelineItem>
-            <TimelineItem dotType="hollow" dotColor="grey" lineType="dashed">
-              <Space direction="vertical" size="mini">
-                <Typography.Text>Final Schedule</Typography.Text>
-                <Typography.Text type="secondary">Mid March </Typography.Text>
-              </Space>
+            <TimelineItem 
+            label='Mid March'
+            dotType="hollow" dotColor="grey" lineType="dashed">
+              <Tag color="gray">Final Schedule</Tag>
             </TimelineItem>
-            <TimelineItem dotType="hollow" dotColor="grey">
-              <Space direction="vertical" size="mini">
-                <Typography.Text>Final Schedule with Location</Typography.Text>
-                <Typography.Text type="secondary">Early April</Typography.Text>
-              </Space>
+            <TimelineItem 
+            label='Early April'
+            dotType="hollow" dotColor="grey">
+              <Tag color="gray">Final with Location</Tag>
             </TimelineItem>
           </Timeline>
           <Typography.Title heading={5}>Select Your Courses </Typography.Title>
@@ -161,7 +159,9 @@ export function Home() {
               </Button>
             )}
             {selected.length > 0 && (
-              <Button type="outline">{`Export ${selected.length} exams to Calendar`}</Button>
+              <ToCalendarButton>
+                {`Export ${selected.length} exams to Calendar`}{" "}
+              </ToCalendarButton>
             )}
           </Space>
           <ExamCards
