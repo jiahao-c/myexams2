@@ -19,7 +19,11 @@ function handleClick(){
         description: 'It works ;)',
         location: 'somewhere',
     });    
-    console.log(calendar.toJSON());
+    const objectURL = calendar.toURL();
+    const link = document.createElement('a');
+    link.href = objectURL;
+    link.download = `exams.ics`;
+    link.click();
 }
 
 export const ToCalendarButton: React.FC = (props)=>{

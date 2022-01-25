@@ -127,8 +127,8 @@ export function Home() {
             </TimelineItem>
           </Timeline>
           
-          <Typography.Title heading={5}>Your courses </Typography.Title>
-          Your course sessions:
+          <Typography.Title heading={5}>Add courses </Typography.Title>
+          Course sessions:
           <Select
             className="min-w-xs max-w-screen-2xl"
             onChange={setInputCourseNumbers}
@@ -143,7 +143,7 @@ export function Home() {
               </Select.Option>
             ))}
           </Select>
-          Your last name: <Input
+          Last name: <Input
           allowClear
           placeholder='AAA'
           />
