@@ -1,9 +1,9 @@
 import { ExamCards } from "@/components/exam-cards";
-import { ToCalendarButton } from "@/components/ToCalendar";
 import { listExamSelectOptions } from "@/graphql/queries";
 import { ExamSession } from "@/models";
+import { parseDateTime } from "@/utils/parser";
 import {
-  Checkbox,
+  Button,
   Divider,
   Input,
   Layout,
@@ -13,9 +13,11 @@ import {
   Timeline,
   Typography
 } from "@arco-design/web-react";
+import { IconDownload } from "@arco-design/web-react/icon";
 import { API, GraphQLResult } from "@aws-amplify/api";
 import { DataStore } from "@aws-amplify/datastore";
 import { useDebounce, useLocalStorageState } from "ahooks";
+import ical from "ical-generator";
 import { useEffect, useState } from "react";
 const Content = Layout.Content;
 const TimelineItem = Timeline.Item;
@@ -35,15 +37,25 @@ export function Home() {
     "myExams-courses-list",
     { defaultValue: [] },
   );
-  const {
-    selected,
-    selectAll,
-    isSelected,
-    unSelectAll,
-    isAllSelected,
-    isPartialSelected,
-    setValueSelected,
-  } = Checkbox.useCheckbox(exams.map((exam) => exam.id));
+
+  const handleExport = ()=>{
+    const calendar = ical({ name: "exam schedules" });
+    exams.map(exam=>{
+      calendar.createEvent({
+        start: parseDateTime(exam.start),
+        end: parseDateTime(exam.end),
+        summary: exam.course,
+        description: exam.title,
+        ...(exam.building && {location: `${exam.building} ${exam.room&&exam.room} ${exam.row&&exam.row}`}),
+      });
+    })
+    
+    const objectURL = calendar.toURL();
+    const link = document.createElement("a");
+    link.href = objectURL;
+    link.download = `exams.ics`;
+    link.click();
+  }
 
   const queryCourses = async () => {
     const query_result = (
@@ -163,15 +175,14 @@ export function Home() {
               </Button>
             )} */}
             {exams.length > 0 && (
-              <ToCalendarButton>
-                {`Export ${exams.length} exams to Calendar`}{" "}
-              </ToCalendarButton>
+              <Button icon={<IconDownload />} type="primary" onClick={handleExport}>
+              {`Export ${exams.length} exams to Calendar`}
+            </Button>
             )}
           </Space>
+
           <ExamCards
             exams={exams}
-            isSelected={isSelected}
-            setValueSelected={setValueSelected}
           />
         </Space>
       </section>

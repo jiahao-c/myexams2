@@ -15,12 +15,8 @@ const { TabPane } = Tabs;
 
 
 
-export const ExamCards = ({ exams,
-  isSelected,
-  setValueSelected }: {
-    exams: ExamSession[],
-    isSelected: (value: string) => boolean,
-    setValueSelected: (value: string, selected?: boolean) => void
+export const ExamCards = ({ exams}: {
+    exams: ExamSession[]
   }) => {
 
   if (!exams || exams.length === 0) {
@@ -64,14 +60,6 @@ export const ExamCards = ({ exams,
               }
             />
           }
-          // extra={<Checkbox
-          //   key={exam.id}
-          //   checked={isSelected(exam.id)}
-          //   value={exam.id}
-          //   onChange={(checked) => {
-          //     setValueSelected(exam.id, checked);
-          //   }}
-          // />}
           >
           <Tabs
             type="line"

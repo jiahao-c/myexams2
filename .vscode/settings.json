@@ -14,6 +14,7 @@
   "prettier.jsxBracketSameLine": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
+    "source.fixAll.prettier": true,
     "source.organizeImports": true
   },
   "files.associations": {
