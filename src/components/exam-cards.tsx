@@ -1,7 +1,6 @@
 import { ExamSession } from '@/models';
 import {
-  Card,
-  Checkbox, Empty, Space, Tabs, Typography
+  Card, Empty, Space, Tabs, Typography
 } from '@arco-design/web-react';
 import {
   IconArrowRight,
@@ -65,14 +64,15 @@ export const ExamCards = ({ exams,
               }
             />
           }
-          extra={<Checkbox
-            key={exam.id}
-            checked={isSelected(exam.id)}
-            value={exam.id}
-            onChange={(checked) => {
-              setValueSelected(exam.id, checked);
-            }}
-          />}>
+          // extra={<Checkbox
+          //   key={exam.id}
+          //   checked={isSelected(exam.id)}
+          //   value={exam.id}
+          //   onChange={(checked) => {
+          //     setValueSelected(exam.id, checked);
+          //   }}
+          // />}
+          >
           <Tabs
             type="line"
             style={{

@@ -1,4 +1,5 @@
 import { Button } from "@arco-design/web-react";
+import { IconDownload } from "@arco-design/web-react/icon";
 import ical from 'ical-generator';
 
 const calendar = ical({name: 'exam schedules'});
@@ -23,7 +24,9 @@ function handleClick(){
 
 export const ToCalendarButton: React.FC = (props)=>{
     return(
-    <Button onClick={handleClick}>
+    <Button 
+    icon={<IconDownload />}
+    type="primary" onClick={handleClick}>
     {props.children}
     </Button>)
 }

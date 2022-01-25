@@ -114,7 +114,8 @@ export const listExamSelectOptions = /* GraphQL */ `
     listExamSessions(limit: $limit) {
       items {
         course,
-        title
+        title,
+        section,
       }
     }
   }

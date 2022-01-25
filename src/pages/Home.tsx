@@ -3,9 +3,9 @@ import { ToCalendarButton } from "@/components/ToCalendar";
 import { listExamSelectOptions } from "@/graphql/queries";
 import { ExamSession } from "@/models";
 import {
-  Button,
   Checkbox,
   Divider,
+  Input,
   Layout,
   Select,
   Space,
@@ -22,6 +22,7 @@ const TimelineItem = Timeline.Item;
 interface Course {
   course: string;
   title: string;
+  section: string;
 }
 
 export function Home() {
@@ -61,9 +62,9 @@ export function Home() {
 
   useEffect(() => {
     // fetch the courses list on component mount
-    if (coursesOptions.length === 0) {
+    // if (coursesOptions.length === 0) {
       queryCourses();
-    }
+    // }
   }, []);
 
   useEffect(() => {
@@ -103,12 +104,9 @@ export function Home() {
           direction="vertical"
           size="mini"
           className="min-w-md max-w-screen-lg">
-          <Space size="medium" align="center">
             <div className="-mt-4">
-              <Typography.Title heading={5}>Current Semester</Typography.Title>
+              <Typography.Title heading={5}>Winter 2022 Final Schdules</Typography.Title>
             </div>
-            <Tag color="arcoblue">Winter - 2022</Tag>
-          </Space>
           <Timeline
           labelPosition='relative'
           direction="horizontal" mode="bottom">
@@ -128,7 +126,9 @@ export function Home() {
               <Tag color="gray">Final with Location</Tag>
             </TimelineItem>
           </Timeline>
-          <Typography.Title heading={5}>Select Your Courses </Typography.Title>
+          
+          <Typography.Title heading={5}>Your courses </Typography.Title>
+          Your course sessions:
           <Select
             className="min-w-xs max-w-screen-2xl"
             onChange={setInputCourseNumbers}
@@ -139,16 +139,20 @@ export function Home() {
             placeholder="Select Courses">
             {coursesOptions.map((course) => (
               <Select.Option key={course.course} value={`${course.course}`}>
-                {`${course.course.replace(/\s/g, "")} ${course.title}`}
+                {`${course.course.replace(/\s/g, "")} ${course.title} - ${course.section}`}
               </Select.Option>
             ))}
           </Select>
+          Your last name: <Input
+          allowClear
+          placeholder='AAA'
+          />
           <Divider />
           <Space align="center" size="medium" className="-mt-20">
             <div className="-mt-4">
               <Typography.Title heading={5}>Your schedule</Typography.Title>
             </div>
-            {exams.length > 0 && !isAllSelected() && (
+            {/* {exams.length > 0 && !isAllSelected() && (
               <Button type="primary" onClick={selectAll}>
                 Select All
               </Button>
@@ -157,10 +161,10 @@ export function Home() {
               <Button type="secondary" onClick={unSelectAll}>
                 Unselect All
               </Button>
-            )}
-            {selected.length > 0 && (
+            )} */}
+            {exams.length > 0 && (
               <ToCalendarButton>
-                {`Export ${selected.length} exams to Calendar`}{" "}
+                {`Export ${exams.length} exams to Calendar`}{" "}
               </ToCalendarButton>
             )}
           </Space>
