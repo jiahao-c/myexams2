@@ -1,5 +1,5 @@
 import { ExamSession } from "@/models";
-import { Button, Form, Layout, Space, Spin } from "@arco-design/web-react";
+import { Button, Form, Input, Layout, Space, Spin, Typography } from "@arco-design/web-react";
 import { DataStore } from "@aws-amplify/datastore";
 import { useState } from "react";
 import ReactJson from "react-json-view";
@@ -18,6 +18,9 @@ export function Admin() {
   const [parsedJSON, setParsedJSON] = useState<InfoJSON | BlankJSON>({
     message: "no data yet",
   });
+  const [dbContent, setDBcontent] = useState<InfoJSON | BlankJSON>({
+    message: "no data yet",
+  });
 
   const handleDBupload = async () => {
     try {
@@ -33,10 +36,7 @@ export function Admin() {
   const handleViewDB = async () => {
     try {
       const posts = await DataStore.query(ExamSession);
-      console.log(
-        "ExamSession retrieved successfully!\n",
-        JSON.stringify(posts, null, 2),
-      );
+      setDBcontent({exams:posts})
     } catch (error) {
       console.log("Error retrieving posts", error);
     }
@@ -64,11 +64,17 @@ export function Admin() {
       <Content>
         <Space direction="vertical" align="start">
           <div>
-            <h2>View Current Database</h2>
+            <Typography.Title
+            heading={4}
+            >View Current Database</Typography.Title>
             <Button>View</Button>
           </div>
           <div>
-            <h2>Update Database</h2>
+            <Typography.Title
+            heading={4}
+            >Update Database</Typography.Title>
+
+            <Typography.Paragraph>
             <ol>
               <li>
                 Provide URl to the EXAM PDF (e.g.
@@ -86,14 +92,26 @@ export function Admin() {
                 while...see network tab.
               </li>
             </ol>
-            <Form onSubmit={handleFormSubmit}>
-              <Form.Item field="url" label="URL" />
-              <Button htmlType="submit">Parse</Button>
-              <Spin loading={loading} />
+            </Typography.Paragraph>
+            <div>
+            <Form 
+            
+            onSubmit={handleFormSubmit}>
+          <Form.Item 
+              field="url" label="URL" >
+          <Input 
+                    className='w-20'
+          placeholder='please enter the url' />
+              </Form.Item>
+              <Button 
+              className='w-20'
+              htmlType="submit">Parse</Button>
             </Form>
+            </div>
           </div>
           <div>
             <h2>Parse Result</h2>
+            <Spin loading={loading} >
             <Space direction="vertical" align="start">
               <ReactJson
                 src={parsedJSON}
@@ -103,14 +121,20 @@ export function Admin() {
               />
               <Button onClick={handleDBupload}>Upload to DB</Button>
             </Space>
+            </Spin>
           </div>
           <div>
             <h2>View DB</h2>
             <Space align="start">
               See DB in console
               <Button onClick={handleViewDB}>View DB</Button>
-              <Button onClick={() => DataStore.clear()}>Clear local DB</Button>
             </Space>
+              <ReactJson
+                src={dbContent}
+                enableClipboard={false}
+                theme="ocean"
+                displayDataTypes={false}
+              />
           </div>
         </Space>
       </Content>
