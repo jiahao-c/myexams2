@@ -32,7 +32,10 @@ export const ExamCards = ({ exams}: {
 
   return (
     <Space wrap size='medium'>
-      {exams.map((exam,idx) => (
+      {exams.map((exam,idx) => {
+        let [startDate, startTime] = exam.start.split(' at');
+        let [endDate, endTime] = exam.end.split(' at');
+        return (
         <Card
           className='w-80 pt-2 h-auto hover:scale-150 h-45'
           key={idx} // ${exam.from} - ${exam.to})
@@ -85,10 +88,12 @@ export const ExamCards = ({ exams}: {
               key="time">
               <Space>
                 <IconClockCircle />
-                <Text>{exam.start.replace(' at', ',')}</Text>
+                <Text>
+                  {startDate}<br/>{startTime}
+                </Text>
                 <IconArrowRight />
                 <IconSchedule />
-                <Text>{exam.end.replace(' at', ',')}</Text>
+                <Text>{endDate}<br/>{endTime}</Text>
               </Space>
             </TabPane>
             {exam.building && <TabPane
@@ -122,7 +127,8 @@ export const ExamCards = ({ exams}: {
             </TabPane>
           </Tabs>
         </Card>
-      ))}
+        )
+            })}
     </Space>
   );
 };
