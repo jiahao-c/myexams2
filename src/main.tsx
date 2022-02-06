@@ -4,8 +4,6 @@ import "virtual:windi.css";
 import { Home } from "./pages/Home";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Home />
-  </React.StrictMode>,
+  <Home />,
   document.getElementById("root"),
 );

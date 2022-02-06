@@ -1,7 +1,7 @@
-import { parser } from "@/API/API";
 import { ExamCards } from "@/components/exam-cards";
 import { Navbar } from "@/components/NavBar";
-import { Course, ExamSession } from "@/utils/types";
+import { PublicGoogleSheetsParser } from "@/utils/API";
+import { Course, CourseSection, ExamSession } from "@/utils/types";
 import { examsToCourses, parseDateTime } from "@/utils/util";
 import {
   Button,
@@ -15,31 +15,24 @@ import {
   Typography
 } from "@arco-design/web-react";
 import { IconCheckCircleFill, IconDownload } from "@arco-design/web-react/icon";
-import { useSessionStorageState } from "ahooks";
 import ical from "ical-generator";
 import { useEffect, useState } from "react";
 const Content = Layout.Content;
 const TimelineItem = Timeline.Item;
+const spreadsheetId = "1uVQRsMX77oopByZxLjK3uDPfFAWoW8ZSKwyzYuKmJHI";
 
 export function Home() {
   //string format: "ABCD123-001"
   const [inputCourseNumbers, setInputCourseNumbers] = useState<string[]>([]);
-  // const debouncedInputCourseNumbers = useDebounce(inputCourseNumbers, {
-  //   wait: 200,
-  // });
-  // const lastname = useState<string>();
-  const [exams, setExams] = useState<ExamSession[]>([]);
+  const [examsResult, setExamsResult] = useState<ExamSession[]>([]);
   const [coursesOptions, setCoursesOptions] = useState<Course[]>([]);
-  const [examData, setExamData] = useSessionStorageState<Course[]>(
-    "myExams-data",
-    { defaultValue: [] },
-  );
+  const [examData, setExamData] = useState<ExamSession[]>([]);
 
   const [buttonIcon, setButtonIcon] = useState(<IconDownload />);
 
   const handleExport = () => {
     const calendar = ical({ name: "exam schedules" });
-    exams.forEach((exam) => {
+    examsResult.forEach((exam) => {
       calendar.createEvent({
         start: parseDateTime(exam.start),
         end: parseDateTime(exam.end),
@@ -66,50 +59,31 @@ export function Home() {
     }, 5000);
   };
 
-  const queryExamSessions = async () => {
-    const rows = await parser.parse();
-    console.log("fetched: ", rows);
-    setExamData(rows);
-    setCoursesOptions(examsToCourses(rows));
-  };
-
   useEffect(() => {
-    if (examData.length === 0) {
-      queryExamSessions();
-    }
+    const parser = new PublicGoogleSheetsParser(spreadsheetId);
+    parser.parse().then((data: ExamSession[]) => {
+      setExamData(data);
+      setCoursesOptions(examsToCourses(data));
+    });
   }, []);
 
-
-  // // course_numbers needs to be "XXXX 000"
-  // const queryExamSessions = async () => {
-  //   if (debouncedInputCourseNumbers.length === 0) {
-  //     return;
-  //   }
-  //   const sessions_per_course = await Promise.all(
-  //     debouncedInputCourseNumbers.map(async (course_number) => {
-  //       try {
-  //         const subj_number =
-  //           course_number.slice(0, 4) + " " + course_number.slice(4, 7);
-  //         const course_section = course_number.split("-")[1];
-  //         const examsResult = await DataStore.query(ExamSession, (session) =>
-  //           session.course("eq", subj_number).section("eq", course_section),
-  //         );
-  //         return examsResult;
-  //       } catch (error) {
-  //         console.log("Error retrieving exams", error);
-  //         return [];
-  //       }
-  //     }),
-  //   );
-  //   setExams(sessions_per_course.flat());
-  // };
-
   const handleFilter = (lastname: string) => {
-    const filteredExams = exams.filter((exam) => {
-      exam.from && exam.to ? lastname > exam.from && lastname < exam.to : true;
-    });
-    setExams(filteredExams);
+    const filteredExams = examsResult.filter((exam) => 
+      (exam.from && exam.to ? lastname > exam.from && lastname < exam.to : true)
+    );
+    setExamsResult(filteredExams);
   };
+
+  useEffect(()=>{
+    const typedInputCourseNumbers:CourseSection[] = inputCourseNumbers.map(courseNumber=>{
+      const [course, section] = courseNumber.split('-');
+      return {course,section}
+    })
+    setExamsResult(examData.filter(exam=>(typedInputCourseNumbers.some((courseSection)=>(
+      courseSection.course === exam.course.replace(/\s/g, '') &&
+      courseSection.section === exam.section.toString()
+    )))))
+  },[inputCourseNumbers])
 
   return (
     <Layout className="w-full z-50">
@@ -130,15 +104,13 @@ export function Home() {
               direction="horizontal"
               // @ts-ignore
               mode="bottom">
-              <TimelineItem label="Late Janurary" lineType="dashed">
+              <TimelineItem label="Late Janurary" lineType="solid">
                 <Tag color="green">Tentative</Tag>
               </TimelineItem>
               <TimelineItem
-                label="Mid March"
-                dotType="hollow"
-                dotColor="grey"
+                label="Early Feburary"
                 lineType="dashed">
-                <Tag color="gray">Final Schedule</Tag>
+                <Tag color="green">Final Schedule</Tag>
               </TimelineItem>
               <TimelineItem
                 label="Early April"
@@ -157,13 +129,13 @@ export function Home() {
               filterOption={true}
               mode="multiple"
               placeholder="Select Courses">
-              {coursesOptions.map((course) => (
+              {coursesOptions.map((course,idx) => (
                 <Select.Option
-                  key={course.course}
+                  key={idx}
                   value={`${course.course.replace(/\s/g, "")}-${
                     course.section
                   }`}>
-                  {`${course.course.replace(/\s/g, "")}-${course.section} ${
+                  {`${course.course.replace(/\s/g, "")}-${(course.section).toString().padStart(3, '0')} ${
                     course.title
                   }`}
                 </Select.Option>
@@ -176,18 +148,18 @@ export function Home() {
               <div className="-mt-4">
                 <Typography.Title heading={5}>Your schedule</Typography.Title>
               </div>
-              {exams.length > 0 && (
+              {examsResult.length > 0 && (
                 <div className="-mt-2">
                   <Button
                     icon={buttonIcon}
                     type="primary"
                     onClick={handleExport}>
-                    {`Export ${exams.length} exams to Calendar`}
+                    {`Export ${examsResult.length} exams to Calendar`}
                   </Button>
                 </div>
               )}
             </Space>
-            <ExamCards exams={exams} />
+            <ExamCards exams={examsResult} />
           </Space>
         </section>
       </Content>

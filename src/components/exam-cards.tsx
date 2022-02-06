@@ -1,4 +1,4 @@
-import { ExamSession } from '@/models';
+import { ExamSession } from '@/utils/types';
 import {
   Card, Empty, Space, Tabs, Typography
 } from '@arco-design/web-react';
@@ -29,12 +29,13 @@ export const ExamCards = ({ exams}: {
     )
   };
 
+
   return (
     <Space wrap size='medium'>
-      {exams.map(exam => (
+      {exams.map((exam,idx) => (
         <Card
           className='w-80 pt-2 h-auto hover:scale-150 h-45'
-          key={exam.id} // ${exam.from} - ${exam.to})
+          key={idx} // ${exam.from} - ${exam.to})
           hoverable={true}
           headerStyle={
             {
@@ -44,8 +45,11 @@ export const ExamCards = ({ exams}: {
           title={
             <Meta
               title={
-                `${exam.course} - ${exam.section} (${exam.from ? exam.from : ''
-                } - ${exam.to ? exam.to : ''})`
+                `${exam.course} - ${exam.section.toString().padStart(3, '0')} ${
+                  exam.from?
+                  (`${exam.from ? exam.from : ''
+                } - ${exam.to ? exam.to : ''}`):''
+              }`
               }
               description={
                 <Text

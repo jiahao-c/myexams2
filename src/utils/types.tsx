@@ -18,3 +18,8 @@ export interface Course {
   title: string;
   section: string;
 }
+
+export interface CourseSection {
+  course: string;
+  section: string;
+}
