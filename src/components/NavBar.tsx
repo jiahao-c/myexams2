@@ -1,14 +1,9 @@
 import { Button, Layout, Menu, Space } from '@arco-design/web-react';
 import { IconGithub } from '@arco-design/web-react/icon';
-import { Link, Outlet } from 'react-router-dom';
-
 const Header = Layout.Header;
 const MenuItem = Menu.Item;
 export function Navbar() {
   return (
-    <Layout
-      className='w-full z-50'
-    >
       <Header
         className='border-gray-300 border-b-1'
       >
@@ -30,11 +25,9 @@ export function Navbar() {
           <Space
             className='-mt-12'
           >
-            <Link to="/">
               <MenuItem key="home">
-                Home
+              <a href="/"> Home  </a>
               </MenuItem>
-            </Link>
             <div
             className='-mb-1'
             >
@@ -51,7 +44,5 @@ export function Navbar() {
           </Space>
         </Menu>
       </Header>
-      <Outlet />
-    </Layout >
   );
 }
