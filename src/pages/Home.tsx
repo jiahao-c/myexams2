@@ -4,9 +4,7 @@ import { PublicGoogleSheetsParser } from "@/utils/API";
 import { Course, CourseSection, ExamSession } from "@/utils/types";
 import { examsToCourses, parseDateTime } from "@/utils/util";
 import {
-  Button,
-  Divider,
-  Input,
+  Button, Divider, Input,
   Layout,
   Select,
   Space,
@@ -68,22 +66,29 @@ export function Home() {
   }, []);
 
   const handleFilter = (lastname: string) => {
-    const filteredExams = examsResult.filter((exam) => 
-      (exam.from && exam.to ? lastname > exam.from && lastname < exam.to : true)
+    const filteredExams = examsResult.filter((exam) =>
+      exam.from && exam.to ? lastname > exam.from && lastname < exam.to : true,
     );
     setExamsResult(filteredExams);
   };
 
-  useEffect(()=>{
-    const typedInputCourseNumbers:CourseSection[] = inputCourseNumbers.map(courseNumber=>{
-      const [course, section] = courseNumber.split('-');
-      return {course,section}
-    })
-    setExamsResult(examData.filter(exam=>(typedInputCourseNumbers.some((courseSection)=>(
-      courseSection.course === exam.course.replace(/\s/g, '') &&
-      courseSection.section === exam.section.toString()
-    )))))
-  },[inputCourseNumbers])
+  useEffect(() => {
+    const typedInputCourseNumbers: CourseSection[] = inputCourseNumbers.map(
+      (courseNumber) => {
+        const [course, section] = courseNumber.split("-");
+        return { course, section };
+      },
+    );
+    setExamsResult(
+      examData.filter((exam) =>
+        typedInputCourseNumbers.some(
+          (courseSection) =>
+            courseSection.course === exam.course.replace(/\s/g, "") &&
+            courseSection.section === exam.section.toString(),
+        ),
+      ),
+    );
+  }, [inputCourseNumbers]);
 
   return (
     <Layout className="w-full z-50">
@@ -107,9 +112,7 @@ export function Home() {
               <TimelineItem label="Late Janurary" lineType="solid">
                 <Tag color="green">Tentative</Tag>
               </TimelineItem>
-              <TimelineItem
-                label="Early Feburary"
-                lineType="dashed">
+              <TimelineItem label="Early Feburary" lineType="dashed">
                 <Tag color="green">Final Schedule</Tag>
               </TimelineItem>
               <TimelineItem
@@ -122,45 +125,51 @@ export function Home() {
             <Typography.Title heading={5}>Add courses </Typography.Title>
             Course sessions:
             <Select
-              className="min-w-xs max-w-screen-2xl"
+              className="max-w-sm"
               onChange={setInputCourseNumbers}
               value={inputCourseNumbers}
               size="large"
               filterOption={true}
               mode="multiple"
               placeholder="Select Courses">
-              {coursesOptions.map((course,idx) => (
+              {coursesOptions.map((course, idx) => (
                 <Select.Option
                   key={idx}
                   value={`${course.course.replace(/\s/g, "")}-${
                     course.section
                   }`}>
-                  {`${course.course.replace(/\s/g, "")}-${(course.section).toString().padStart(3, '0')} ${
-                    course.title
-                  }`}
+                  {`${course.course.replace(/\s/g, "")}-${course.section
+                    .toString()
+                    .padStart(3, "0")} ${course.title}`}
                 </Select.Option>
               ))}
             </Select>
             Last name:{" "}
-            <Input allowClear placeholder="AAA" onChange={handleFilter} />
-            <Divider />
-            <Space align="center" size="medium" className="-mt-20">
-              <div className="-mt-4">
-                <Typography.Title heading={5}>Your schedule</Typography.Title>
+            <Input
+              className="max-w-sm"
+              allowClear
+              placeholder="AAA"
+              onChange={handleFilter}
+            />
+            <Divider/>
+            <Space
+          size="medium" >
+            <div className="-mt-4">
+              <Typography.Title heading={5}>Your schedule</Typography.Title>
+            </div>
+            {examsResult.length > 0 && (
+              <div className="-mt-2">
+                <Button icon={buttonIcon} type="primary" onClick={handleExport}>
+                  {`Export ${examsResult.length} exams to Calendar`}
+                </Button>
               </div>
-              {examsResult.length > 0 && (
-                <div className="-mt-2">
-                  <Button
-                    icon={buttonIcon}
-                    type="primary"
-                    onClick={handleExport}>
-                    {`Export ${examsResult.length} exams to Calendar`}
-                  </Button>
-                </div>
-              )}
-            </Space>
-            <ExamCards exams={examsResult} />
+            )}
           </Space>
+          </Space>
+
+        </section>
+        <section className="flex place-content-center">
+        <ExamCards exams={examsResult} />
         </section>
       </Content>
     </Layout>
