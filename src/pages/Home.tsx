@@ -93,7 +93,7 @@ export function Home() {
           <Space
             direction="vertical"
             size="mini"
-            className="min-w-md max-w-screen-lg">
+            className="w-screen-md">
             <div className="-mt-4">
               <Typography.Title heading={5}>
                 Winter 2022 Final Schdules
@@ -120,9 +120,13 @@ export function Home() {
               </TimelineItem>
             </Timeline>
             <Typography.Title heading={5}>Add courses </Typography.Title>
+            Last name:
+            <Input 
+            className="max-w-xs"
+            allowClear placeholder="AAA" onChange={handleFilter} />
             Course sessions:
             <Select
-              className="min-w-xs max-w-screen-2xl"
+              className="max-w-2xl"
               onChange={setInputCourseNumbers}
               value={inputCourseNumbers}
               size="large"
@@ -141,8 +145,6 @@ export function Home() {
                 </Select.Option>
               ))}
             </Select>
-            Last name:{" "}
-            <Input allowClear placeholder="AAA" onChange={handleFilter} />
             <Divider />
             <Space align="center" size="medium" className="-mt-20">
               <div className="-mt-4">
